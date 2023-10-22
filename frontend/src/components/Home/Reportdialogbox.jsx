@@ -7,31 +7,24 @@ import {
 } from '@material-tailwind/react';
 
 import { postReport } from '../../api/apiConnections/postConnection';
+import { useSelector } from 'react-redux';
 
-const Reportdialogbox = ({ open, handleOpen,postId,userId }) => {
+const Reportdialogbox = ({ open, handleOpen,postId, postedUsername}) => {
+
+  const  {userId}=useSelector((state)=>state.user)
     const [selectedOption,setSelectedOption] = useState("")
 
     const handleOption =(event)=>{
         setSelectedOption(event.target.value)
     }
-
+console.log(userId,"llllll");
 
   const postReports=async (e)=>{
     e.preventDefault()
-    console.log(postId,userId,selectedOption,"pageeeeeeeeeeee");
-    
-    const postreportResponse= await  postReport(postId,userId,selectedOption);
-    console.log(postreportResponse,"eeeeeeeeeeeeeeeeeeeeeeee");
+    const postreportResponse= await  postReport(postId, postedUsername,userId,selectedOption);
   }
 
-
-
-
-        
-
-
-
-  return (
+return (
     <>
      
       <Dialog open={open} handler={handleOpen}>

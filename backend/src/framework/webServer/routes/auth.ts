@@ -16,6 +16,8 @@ const authRouter = () => {
   );
   router.post("/signup", controllers.signUpUser);
   router.post("/login", controllers.signInUser);
+  router.post("/googlelogin",controllers.googlesigninUser)
+  router.post("/googlesignup",controllers.googlesignupUser)
   return router;
 };
 export default authRouter;

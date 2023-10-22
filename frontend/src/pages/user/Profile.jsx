@@ -1,15 +1,14 @@
 import React from 'react'
-import  Head from '../../components/Profile/Head'
+import  Heads from '../../components/Profile/Heads'
 import { Leftsidebar } from '../../components/Home/Leftsidebar'
-import Tail from '../../components/Profile/Tail'
+
 
 
 const Profile = () => {
   return (
     <>
     <Leftsidebar/>
-    <Head/>
-    <Tail/>
+    <Heads/>
     </>
   )
 }

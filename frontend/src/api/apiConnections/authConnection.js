@@ -30,3 +30,25 @@ export const signIn = async (values) => {
     throw new Error(error);
   }
 };
+
+
+export const googlesignIn = async (email) => {
+  try {
+    
+    const response = await baseURL.post("/auth/googlelogin", {email});
+    return response?.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const googlesignup = async (userName,email) => {
+  try {
+
+    const response = await baseURL.post("/auth/googlesignup", {userName,email})
+    console.log(response?.data,"333333333333333authconnection");
+    return response?.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};

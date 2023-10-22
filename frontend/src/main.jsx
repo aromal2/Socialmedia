@@ -4,7 +4,8 @@ import App from './App.jsx'
 import './index.css'
 import { ThemeProvider } from '@material-tailwind/react'
 import { Provider } from 'react-redux'
-import store from './redux/userRedux/store.js'
+import store from './redux/store.js'
+
 import { ToastContainer } from 'react-toastify'
 import './index.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -18,10 +19,13 @@ const toastStyles = {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-<Provider store={store}>
+<Provider store={store} >
+
       <ThemeProvider>
       <ToastContainer position="top-right" hideProgressBar={true} autoClose={2000} style={toastStyles}/>
-      <App />
+    
+       <App />
+      
       </ThemeProvider>
       </Provider>
      </React.StrictMode>

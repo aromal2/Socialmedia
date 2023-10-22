@@ -1,6 +1,10 @@
-import React from "react";
+// Leftsidebar.js
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogout } from "../../redux/slice";
 import { Dialogbox } from "./Dialogbox";
-import { useState } from "react";
+import { Search } from "./Search";
 import {
   Card,
   Typography,
@@ -9,37 +13,37 @@ import {
   ListItemPrefix,
   ListItemSuffix,
   Chip,
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
-  Dialog,
 } from "@material-tailwind/react";
-
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
+  HomeIcon,
+  PlusSmallIcon,
+  InboxIcon,
   UserCircleIcon,
   Cog6ToothIcon,
-  InboxIcon,
   PowerIcon,
-  PlusSmallIcon,
-  HomeIcon,
+  MagnifyingGlassIcon,
+  EnvelopeIcon
 } from "@heroicons/react/24/solid";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { setLogout } from "../../redux/userRedux/slice";
 
-export function Leftsidebar() {
+export function Leftsidebar({setAllpost}) {
   const [open, setOpen] = useState(false);
+  const [opens, setOpens] = useState(false);
   const dispatch = useDispatch();
-
+  const navigate=useNavigate()
   const handleOpen = () => {
     setOpen(!open);
   };
 
+  const handleOpens = () => {
+    setOpens(!opens);
+  };
+
+  const  homenavigate=() =>{
+    navigate("/")
+  }
+
   return (
-    <Card className="h-[calc(106vh-2rem)] w-full max-w-[16rem] p-3 shadow-sm shadow-blue-gray-700 fixed border-black hidden sm:block top-0 left-0">
+    <Card className="h-[calc(106vh-2rem)] w-[16rem] max-w-[16rem] p-3 shadow-sm shadow-blue-gray-700 fixed border-black hidden sm:block top-0 left-0">
       <div className="mb-2 p-4">
         <Typography variant="h5" color="black">
           moments
@@ -48,54 +52,46 @@ export function Leftsidebar() {
       <List>
         <ListItem className="hover:bg-custom-500 text-black bg-white text-base">
           <ListItemPrefix>
-            <HomeIcon className="h-5 w-5 " />
+            <HomeIcon className="h-5 w-5 text-base font-serif" />
           </ListItemPrefix>
-          <Link to="/"> Home</Link>
-         
+
+          <button onClick={homenavigate}> Home</button>
         </ListItem>
         <ListItem
           className="hover:bg-custom-500 text-black"
           onClick={() => handleOpen(!open)}
         >
           <ListItemPrefix>
-            <PlusSmallIcon className="h-5 w-5 text-base" />
+            <PlusSmallIcon className="h-5 w-5 text-base font-serif" />
           </ListItemPrefix>
           Create Post
         </ListItem>
-        <Dialogbox open={open} handleOpen={handleOpen} />
+        <Dialogbox open={open} handleOpen={handleOpen} setAllpost={setAllpost} />
         <hr className="my-2" />
 
-        <ListItem className="hover:bg-custom-500  text-black text-base">
+        <ListItem
+          className="hover:bg-custom-500  text-black text-base"
+          onClick={() => handleOpens(!opens)}
+        >
           <ListItemPrefix>
-            <InboxIcon className="h-5 w-5 text-base font-serif " />
+            <MagnifyingGlassIcon  className="h-5 w-5 text-base font-serif " />
           </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip
-              value="14"
-              size="sm"
-              variant="ghost"
-              color="blue"
-              className="rounded-full"
-            />
-          </ListItemSuffix>
+          Search
         </ListItem>
-        <ListItem className="hover:bg-custom-500  text-black text-base">
+        <Search open={opens} handleOpen={handleOpens} />
+         <ListItem className="hover:bg-custom-500  text-black text-base">
           <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
+            <EnvelopeIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Profile
-        </ListItem>
+          <Link to="/message" className="text-sm">Messages</Link>
+        </ListItem> 
         <ListItem className="hover:bg-custom-500  text-black font-extralight text-base">
           <ListItemPrefix>
             <Cog6ToothIcon className="h-5 w-5 " />
           </ListItemPrefix>
           Settings
         </ListItem>
-        <ListItem
-          className="hover:bg-custom-500"
-          onClick={() => dispatch(setLogout())}
-        >
+        <ListItem className="hover:bg-custom-500" onClick={() => dispatch(setLogout())}>
           <ListItemPrefix className="text-sm">
             <PowerIcon className="h-5 w-5 text-black text-base" />
           </ListItemPrefix>

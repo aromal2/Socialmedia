@@ -7,17 +7,15 @@ import {
   Tooltip,
 
 } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getAllposts,likePost} from "../../api/apiConnections/postConnection";
-import SinglePost from "../../components/Home/SinglePost/"
-
-
+import SinglePost from "../../components/Home/SinglePost"
+import { setAllposts } from "../../redux/slice";
 import { CLOUDINARY_POST_URL } from "../../api/baseURL";
 import {
   PaperAirplaneIcon,
   ChatBubbleOvalLeftIcon,
-  HeartIcon,
+  HeartIcon
 } from "@heroicons/react/24/solid";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
@@ -30,31 +28,18 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-export function Post() {
-  const [allpost, setAllposts] = useState([]);
-  const responses = useSelector((state) => state.user.responses);
-  responses.sort((a, b) => b - a);
-  const userName= useSelector((state)=>state.user.userName)
+export function Post({allPost,setAllpost}) {
+  const {userId,userName}= useSelector((state)=>state.user)
+const dispatch=useDispatch()
 
-
-  useEffect(() => {
-    Allposts();
-  }, []);
-
- const Allposts = async () => {
-    const postResponse = await getAllposts();
-    setAllposts(postResponse);
-  };
-
-
-   return (
+ return (
    <div>
-      {allpost.map((post) => (
-        <SinglePost data={post}/>)
-
-      )}
+      {allPost.length?allPost?.map((post) => (
       
+         <SinglePost post={post} key={post.postId} setAllpost={setAllpost} allPost={allPost} />)
 
+      ):null}
+      
     </div>   
   );
 }

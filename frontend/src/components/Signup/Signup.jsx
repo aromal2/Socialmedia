@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import { signUp } from "../../api/apiConnections/authConnection";
-import { setToken, setUser } from "../../../src/redux/userRedux/slice";
+import { setToken, setUser, setUserid,setEmail } from "../../../src/redux/slice";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -65,15 +65,19 @@ export function SignUpCard() {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      
       const data = { ...values, rePassword: undefined };
       const response = await signUp(data);
-      console.log(response, "66666666666666666");
+
+      console.log(response,"signupppp");
+              
 
       if (response?.status === "success") {
         if (response?.token) {
           dispatch(setUser(response.user.userName));
           dispatch(setToken(response?.token));
+          dispatch(setUserid(response.user._id))
+          dispatch(setEmail(response.user.email))
         }
         navigate("/");
       }

@@ -4,33 +4,32 @@ const userSchema = new Schema(
   {
     firstName: {
       type: String,
-      required: true,
+      default:''
     },
     lastName: {
       type: String,
-      required: true,
+      default:''
     },
     userName: {
       type: String,
-      required: true,
       unique: true,
     },
     email: {
       type: String,
-      required: true,
       unique: true,
+      default:''
     },
     password: {
       type: String,
-      required: true,
-      minlength: 6,
+      default:''
     },
     age: {
       type: Number,
+      default:''
     },
     profilePic: {
       type: String,
-      default: "",
+      default: " ",
     },
     bio: {
       type: String,
@@ -45,12 +44,17 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    verifiedProfile:{
+      type:Boolean,
+      default:false
+    },
     blockedUsers: [],
     blockedByusers: [],
     followers: [],
     following: [],
     followRequests: [],
     followRequested: [],
+    saved:[]
   },
   { timestamps: true }
 );

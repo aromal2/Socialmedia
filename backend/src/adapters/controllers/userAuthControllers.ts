@@ -3,9 +3,12 @@ import asyncHandler from 'express-async-handler'
 
 import  {AuthServices} from "../../framework/services/authServices" 
 import { AuthServiceInterface } from "../../application/services/authServiceInterfaces";
+
 import {UserDbinterface } from "../../application/repositories/userDbrepository";
+
 import { userHelper } from "../../framework/database/mongoDb/repositories/userHelper";
-import { userSignUp,userSignIn } from "../../application/useCases/auth/userAuth";
+import { userSignUp,userSignIn,googleuserSignIn, googleuserSignUp,} from "../../application/useCases/auth/userAuth";
+
 
 const userAuthcontrollers = (
     AuthServiceInterface:AuthServiceInterface,
@@ -19,7 +22,7 @@ const userAuthcontrollers = (
     const signUpUser = asyncHandler(async(req:Request,res:Response)=>{
         
         
-        const {firstName,lastName,userName,email,password,mobile,age} = req.body
+        const {firstName,lastName,userName,email,password,mobile,age,gender} = req.body
         
         const user = {
             firstName,
@@ -28,16 +31,35 @@ const userAuthcontrollers = (
             email,
             password,
             mobile,
-            age
+            age,
+            gender
+
         }
         const userData = await userSignUp(user,userDbrepository,authService)
         res.json(userData)
     })
 
     const signInUser = asyncHandler(async(req:Request,res:Response)=>{
-        const {userName,password} : {userName:string,password:string} = req.body
-        const userData = await userSignIn(userName,password,userDbrepository,authService)
-        console.log(userData,"6666666666666666")
+        const {email,password} : {email:string,password:string} = req.body
+       const userData = await userSignIn(email,password,userDbrepository,authService)
+        res.json(userData)
+    })
+
+    const googlesigninUser =asyncHandler(async(req:Request,res:Response)=>{
+        console.log(req.body,"7777body");
+        
+        
+        const userData =await  googleuserSignIn(req.body.email,userDbrepository,authService)
+        res.json(userData)
+    })
+
+    const googlesignupUser =asyncHandler(async(req:Request,res:Response)=>{
+    const {userName,email}=req.body
+            const user ={
+                userName,email
+            }
+        
+        const userData =await googleuserSignUp(user,userDbrepository,authService)
         res.json(userData)
     })
 
@@ -45,7 +67,9 @@ const userAuthcontrollers = (
         
         
         signUpUser,
-        signInUser
+        signInUser,
+        googlesigninUser,
+        googlesignupUser
     }
    }
    export default userAuthcontrollers

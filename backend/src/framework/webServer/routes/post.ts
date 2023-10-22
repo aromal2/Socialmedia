@@ -9,11 +9,17 @@ const postRouter = () => {
   const router = express.Router();
   const controllers = postControllers(postDbrepository, postHelper);
 
-  router.post("/addpost", userMiddleware,uploadPhoto, controllers.addPost);
-  router.get("/getpost", userMiddleware,controllers.getPost);
-  router.post("/likepost",controllers.likePost);
-   router.post("/unlikepost",controllers.unlikePost)
-   router.post("/reportpost",controllers.reportPost)
+  router.post("/addpost",uploadPhoto, controllers.addPost);
+  router.post("/likepost",userMiddleware,controllers.likePost);
+   router.post("/unlikepost",userMiddleware,controllers.unlikePost)
+   router.post("/reportpost",userMiddleware,controllers.reportPost)
+   router.get("/singleuserpost/:userId",userMiddleware,controllers.singleUserpost)
+   router.delete("/deletepost/:postId",userMiddleware,controllers.deletepost)
+   router.post("/addcomment",userMiddleware,controllers.addComment)
+   router.post("/getComment",userMiddleware,controllers.getComment)
+   router.post ("/commentsize",controllers.commentSize)
+   router.post("/removecomment",controllers.deleteComment)
+   router.post("/editcomment",controllers.editComment)
    
 
   return router;
